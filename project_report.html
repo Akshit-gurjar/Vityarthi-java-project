@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Project Report - StudyPlanner CLI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+            @bottom-right {
+                content: "Page " counter(page) " of 18";
+                font-family: 'Inter', sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "VIT Bhopal University | Akshit (25BAI10954)";
+                font-family: 'Inter', sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1e293b;
+            line-height: 1.6;
+            background-color: #ffffff;
+            font-size: 10pt;
+        }
+
+        .page {
+            padding: 10px 0;
+            page-break-after: always;
+        }
+
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 90vh;
+            text-align: center;
+            padding-top: 40px;
+            page-break-after: always;
+        }
+
+        .university-header h2 {
+            font-size: 15pt;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .university-header h3 {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 4px;
+        }
+
+        .university-header p {
+            font-size: 9pt;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            margin: 25px 0;
+            border-radius: 2px;
+        }
+
+        .report-badge {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #1e40af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .course-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+
+        .project-title {
+            font-size: 24pt;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+            margin-bottom: 12px;
+        }
+
+        .project-subtitle {
+            font-size: 11pt;
+            color: #475569;
+            font-weight: 400;
+            max-width: 85%;
+            margin: 0 auto 40px auto;
+            line-height: 1.5;
+        }
+
+        .submission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 9.5pt;
+        }
+
+        .submission-table th {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #1e3a8a;
+        }
+
+        .submission-table td {
+            padding: 9px 14px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .submission-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .declaration {
+            margin-top: 40px;
+            padding: 16px;
+            background-color: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            font-style: italic;
+            font-size: 9pt;
+            color: #334155;
+            border-radius: 0 6px 6px 0;
+        }
+
+        h2 {
+            font-size: 13pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 20px 0 10px 0;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding-bottom: 4px;
+        }
+
+        h3 {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #1e40af;
+            margin: 14px 0 6px 0;
+        }
+
+        h4 {
+            font-size: 10pt;
+            font-weight: 600;
+            color: #334155;
+            margin: 10px 0 4px 0;
+        }
+
+        p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        table.content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 9pt;
+        }
+
+        table.content-table th {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #0f172a;
+        }
+
+        table.content-table td {
+            padding: 7px 10px;
+            border: 1px solid #cbd5e1;
+        }
+
+        table.content-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .code-block {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8.5pt;
+            line-height: 1.45;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            border: 1px solid #1e293b;
+        }
+
+        .terminal-box {
+            background-color: #020617;
+            color: #38bdf8;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8pt;
+            line-height: 1.35;
+            margin: 10px 0;
+            border: 1px solid #1e293b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .terminal-header {
+            color: #94a3b8;
+            font-size: 7.5pt;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #eab308; }
+        .dot-green { background: #22c55e; }
+
+        .header-footer {
+            font-size: 8pt;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 4px;
+            margin-bottom: 16px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 8pt;
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { font-size: 9.5pt; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: TITLE / COVER PAGE -->
+    <div class="cover-page">
+        <div>
+            <div class="university-header">
+                <h2>Vellore Institute of Technology (VIT) Bhopal University</h2>
+                <p>Bhopal-Indore Highway, Kothrikalan, Sehore, Madhya Pradesh – 466114</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="report-badge">Course Project Report</div>
+            <div class="course-title">Course: Programming in Java</div>
+
+            <h1 class="project-title">StudyPlanner: CLI Academic Study, Task & Schedule Management Platform</h1>
+            <p class="project-subtitle">An Offline-First Layered Academic Task Lifecycle, Dynamic Overdue Auditing, Conflict-Checked Timetable, Functional Stream Analytics, and NIO.2 Data Management Platform in Core Java</p>
+
+            <table class="submission-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45%;">Project Specification</th>
+                        <th>Submission Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Student Name</strong></td>
+                        <td><strong>Akshit</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registration Number</strong></td>
+                        <td><strong>25BAI10954</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Student Email</strong></td>
+                        <td>akshit.25bai10954@vitbhopal.ac.in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Academic Program</strong></td>
+                        <td>B.Tech CSE (Artificial Intelligence & Machine Learning)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Course Name</strong></td>
+                        <td>Programming in Java</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Development Stack</strong></td>
+                        <td>Java SE 21 (Pure Core Java), SQLite JDBC, Java NIO.2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verification Suite</strong></td>
+                        <td>21 Automated In-Memory & DB Test Cases (Pass Rate: 100%)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Academic Session</strong></td>
+                        <td>Academic Year 2025–2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="declaration">
+            "I hereby declare that this project report titled <strong>StudyPlanner: CLI Academic Study, Task & Schedule Management Platform</strong> is my original work carried out as part of the coursework requirements for Programming in Java. All algorithms, data structures, and implementation logic were written and tested independently."
+        </div>
+    </div>
+
+    <!-- PAGE 2: INTRODUCTION & PROBLEM STATEMENT -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>2. Introduction</h2>
+        <p>In modern collegiate engineering education, students in computer science and artificial intelligence disciplines are tasked with managing multiple rigorous courses simultaneously. Each individual academic module demands ongoing engagement across assignments, coding lab deliverables, conceptual exercises, and periodic revision schedules. Without disciplined time allocation, students frequently experience deadline panic and suboptimal preparation.</p>
+        <p><strong>StudyPlanner CLI</strong> is an educational, console-based academic management platform and study optimization engine built from the ground up in native Java (JDK 21+). Developed as part of the <em>Programming in Java</em> curriculum at VIT Bhopal University, StudyPlanner demonstrates the practical application of object-oriented design patterns, multi-tier layered architecture, functional data processing via the Java Stream API, persistent relational storage using SQLite with JDBC PreparedStatements, asynchronous multithreading through <code>ScheduledExecutorService</code>, and robust file handling with Java NIO.2.</p>
+        <p>Unlike commercial mobile applications that require continuous cloud connectivity, browser rendering, and external tracking feeds, StudyPlanner runs completely within a local operating system terminal. It models the core operations of student academic productivity: course credit structures, dynamic task priority indexing (<code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code>), automated overdue deadline auditing, conflict-free timetable scheduling, analytical progress computation, and automated disaster-recovery database backups.</p>
+
+        <h2>3. Problem Statement</h2>
+        <p>When undergraduate students manage academic commitments, task tracking is almost universally executed through fragmented, ad-hoc mechanisms: paper notebooks, chaotic messaging groups, LMS notifications, and transient mobile notes. In such models, the academic workflow suffers from severe deficiencies:</p>
+        <ul>
+            <li><strong>No Unified System of Record:</strong> Course credits, assignment deliverables, and revision targets are scattered across unrelated media.</li>
+            <li><strong>Absence of Dynamic Overdue Tracking:</strong> Static to-do lists do not compute temporal state. When an assignment deadline passes, students receive no automated overdue alerting or urgency re-indexing, resulting in missed submissions.</li>
+            <li><strong>Uncoordinated Revision Scheduling:</strong> Students schedule study blocks without checking for temporal overlap or estimated workload, creating timetable conflicts and unrealistic daily targets.</li>
+            <li><strong>Lack of Quantitative Progress Metrics:</strong> Students cannot evaluate completion percentages across individual courses, preventing informed reallocation of study hours toward credit-heavy subjects.</li>
+            <li><strong>Absence of Auditable Backups & Portability:</strong> Commercial tools demand continuous connectivity and subscription fees. There is an academic need for an authentic, self-contained Java system providing local persistence, automated CSV exports, and point-in-time database snapshot backups.</li>
+        </ul>
+    </div>
+
+    <!-- PAGE 3: REQUIREMENTS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>4. Functional Requirements</h2>
+        <p>The system satisfies the following functional requirements categorized by operational subsystem:</p>
+
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 12%;">Req ID</th>
+                    <th style="width: 25%;">Subsystem</th>
+                    <th>Detailed Functional Requirement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>FR-01</strong></td>
+                    <td>Subject Management</td>
+                    <td>Full CRUD operations for courses: subject code (unique, uppercase), name, positive credit hours (> 0), and syllabus description.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-02</strong></td>
+                    <td>Task Lifecycle</td>
+                    <td>Create, view, search, update, and delete tasks with priority levels (<code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code>), deadline validation, and estimated study minutes.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-03</strong></td>
+                    <td>Dynamic Overdue Auditing</td>
+                    <td>Real-time temporal evaluation flagging pending tasks whose deadline is strictly before the current system date (<code>LocalDate.now()</code>).</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-04</strong></td>
+                    <td>Status Transitions</td>
+                    <td>Instant toggling of task status between <code>PENDING</code> and <code>COMPLETED</code>, updating completion rates immediately.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-05</strong></td>
+                    <td>Study Timetable</td>
+                    <td>Schedule study sessions with date, start time, end time, and specific topic; validates end time > start time.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-06</strong></td>
+                    <td>Conflict Detection Engine</td>
+                    <td>Identifies and warns against overlapping study sessions on the same date before persisting records.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-07</strong></td>
+                    <td>Progress Analytics</td>
+                    <td>Calculates overall completion rate, subject-specific completion rates, and workload hours using Java Stream API (<code>groupingBy</code>, <code>filter</code>).</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-08</strong></td>
+                    <td>NIO.2 CSV Export</td>
+                    <td>Generates well-formed CSV reports for tasks and study schedules using Java NIO.2 file channels and UTF-8 encoding.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-09</strong></td>
+                    <td>Database Snapshot Backups</td>
+                    <td>Produces timestamped hot snapshot copies of the active SQLite database to <code>data/backups/</code> using <code>Files.copy</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-10</strong></td>
+                    <td>Asynchronous Alert Daemon</td>
+                    <td>Background <code>ScheduledExecutorService</code> thread periodically scanning for overdue and due-today tasks, rendering active banners in the CLI header.</td>
+                </tr>
+                <tr>
+                    <td><strong>FR-11</strong></td>
+                    <td>Demo Data Seeder</td>
+                    <td>Instant sample academic environment provisioning (courses, tasks, study sessions) for rapid 2-minute evaluator demonstrations.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>5. Non-Functional Requirements</h2>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Category</th>
+                    <th style="width: 25%;">Target Metric</th>
+                    <th>Implementation & Verification Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>&lt; 5 ms operation latency</td>
+                    <td>In-memory indexing combined with local SQLite B-Tree indexing for instantaneous queries.</td>
+                </tr>
+                <tr>
+                    <td><strong>Concurrency</strong></td>
+                    <td>Thread-safe background monitoring</td>
+                    <td><code>ScheduledExecutorService</code> using daemon threads and <code>AtomicReference</code> for non-blocking alert updates.</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Integrity</strong></td>
+                    <td>ACID transaction guarantees</td>
+                    <td>Relational SQLite storage with foreign keys (<code>PRAGMA foreign_keys = ON</code>), prepared statements, and cascading deletes.</td>
+                </tr>
+                <tr>
+                    <td><strong>Portability</strong></td>
+                    <td>Zero external dependencies</td>
+                    <td>Runs on standard JDK 21+ on Windows, Linux, and macOS without requiring external database servers (MySQL/PostgreSQL).</td>
+                </tr>
+                <tr>
+                    <td><strong>Robustness</strong></td>
+                    <td>Zero unhandled crashes</td>
+                    <td>Comprehensive checked exception hierarchy (<code>InvalidInputException</code>, <code>SubjectNotFoundException</code>) with recovery loops.</td>
+                </tr>
+                <tr>
+                    <td><strong>Maintainability</strong></td>
+                    <td>Clean layered architecture</td>
+                    <td>Strict decoupling across Presentation (<code>app</code>), Business Engine (<code>service</code>), Data Access (<code>repository</code>), and Relational Storage (<code>database</code>).</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PAGE 4: SYSTEM ARCHITECTURE -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>6. System Architecture</h2>
+        <p>StudyPlanner is engineered around a <strong>5-Tier Decoupled Layered Architecture</strong>. This modular separation guarantees that business logic, persistence operations, and console presentation remain completely isolated:</p>
+
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Architectural Layer</th>
+                    <th style="width: 35%;">Key Classes / Components</th>
+                    <th>Core Responsibility</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Presentation Layer (Console CLI)</strong></td>
+                    <td><code>Main.java</code></td>
+                    <td>Renders interactive terminal menus, ANSI/ASCII formatted tables, visual progress bars, and alert headers. Captures and sanitizes raw user keystrokes.</td>
+                </tr>
+                <tr>
+                    <td><strong>Business Service Layer</strong></td>
+                    <td><code>SubjectService.java</code><br><code>TaskService.java</code><br><code>ScheduleService.java</code><br><code>AnalyticsService.java</code><br><code>ReportService.java</code></td>
+                    <td>Implements domain rules: unique course codes, positive credits, task status transitions, timetable conflict detection, and Stream API analytics.</td>
+                </tr>
+                <tr>
+                    <td><strong>Concurrency Layer</strong></td>
+                    <td><code>ReminderService.java</code></td>
+                    <td>Background <code>ScheduledExecutorService</code> running periodic daemon audits to update real-time overdue and due-today alerts.</td>
+                </tr>
+                <tr>
+                    <td><strong>Utilities & File Channels</strong></td>
+                    <td><code>InputValidator.java</code><br><code>CsvExporter.java</code><br><code>BackupManager.java</code></td>
+                    <td>Validates ISO dates and 24-hr times; manages Java NIO.2 file exports and database snapshot backups.</td>
+                </tr>
+                <tr>
+                    <td><strong>Persistence & Data Access Layer</strong></td>
+                    <td><code>DatabaseManager.java</code><br><code>SubjectRepository.java</code><br><code>TaskRepository.java</code><br><code>StudySessionRepository.java</code></td>
+                    <td>Thread-safe connection management to SQLite (<code>data/studyplanner.db</code>). Executes parameterized SQL prepared statements.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Architectural Flow</h3>
+        <p>When a user submits an action via the Presentation CLI, <code>Main.java</code> captures and sanitizes input, invoking defensive validation in <code>InputValidator.java</code>. Next, it dispatches the operation to the appropriate Service component. The Service layer validates business rules and calls the Repository layer, which executes parameterized SQL statements against the SQLite database using JDBC PreparedStatements. Concurrently, <code>ReminderService.java</code> runs asynchronously in the background, updating the active alert banner displayed in the main menu header.</p>
+
+        <div class="terminal-box">
+┌─────────────────────────────────────────────────────────────┐
+│                    Terminal Console (CLI)                   │
+│                     com.studyplanner.app                    │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                        Service Layer                        │
+│                   com.studyplanner.service                  │
+│   (SubjectService, TaskService, ScheduleService,            │
+│    AnalyticsService, ReportService, ReminderService)        │
+└──────────────┬───────────────────────────────┬──────────────┘
+               │                               │
+┌──────────────▼──────────────┐ ┌──────────────▼──────────────┐
+│      Repository Layer       │ │      Utilities & Files      │
+│  com.studyplanner.repository│ │     com.studyplanner.util   │
+│   (JDBC PreparedStatements) │ │   (CsvExporter, BackupMgr,  │
+│                             │ │    InputValidator, NIO.2)   │
+└──────────────┬──────────────┘ └─────────────────────────────┘
+               │
+┌──────────────▼──────────────┐
+│   Database Layer (SQLite)   │
+│    data/studyplanner.db     │
+└─────────────────────────────┘
+        </div>
+    </div>
+
+    <!-- PAGE 5: DESIGN DIAGRAMS (USE CASE & WORKFLOW) -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>7. Design Diagrams</h2>
+
+        <h3>7.1 Use Case Diagram</h3>
+        <p>The Use Case Diagram formalizes interactions between the primary student user, background reminder daemon, and system boundaries.</p>
+
+        <div class="terminal-box">
+          STUDENT / USER                              SYSTEM BOUNDARY (StudyPlanner CLI)
+          ┌─────────────┐
+          │   (User)    │ ────────► [ UC-01: Manage Academic Subjects (CRUD) ]
+          │      o      │ ────────► [ UC-02: Manage Tasks & Deadlines (CRUD) ]
+          │     /|\     │ ────────► [ UC-03: Toggle Task Status (PENDING/COMPLETED) ]
+          │     / \     │ ────────► [ UC-04: Schedule Study Sessions & Detect Conflicts ]
+          └─────────────┘ ────────► [ UC-05: View Real-Time Progress Analytics ]
+                 │        ────────► [ UC-06: Export Structured CSV Reports (Java NIO.2) ]
+                 │        ────────► [ UC-07: Create Hot SQLite Snapshot Backup ]
+                 │        ────────► [ UC-08: Provision Sample Academic Environment (Demo) ]
+                 │
+          DAEMON WORKER
+          ┌─────────────┐
+          │  (Daemon)   │ ────────► [ UC-09: Scan Overdue & Due-Today Tasks ]
+          │     (*)     │ ────────► [ UC-10: Update Console Header Alert Banner ]
+          └─────────────┘
+        </div>
+
+        <p><strong>Key Actor Roles:</strong></p>
+        <ul>
+            <li><strong>Student / User:</strong> Interacts with the terminal, registers courses, tracks tasks, inspects completion rates, exports CSV reports, and initiates backups.</li>
+            <li><strong>Reminder Daemon:</strong> Autonomous background worker executing periodic scans over task deadlines to compute real-time alert notifications.</li>
+        </ul>
+
+        <h3>7.2 Workflow Diagram</h3>
+        <p>The Workflow Diagram traces the complete operational lifecycle from application startup to clean termination.</p>
+
+        <div class="terminal-box">
+  [ Start Application ] ──► [ Connect to SQLite (data/studyplanner.db) ]
+                                      │
+                                      ▼
+                        [ Start Concurrency Reminder Daemon ]
+                                      │
+                                      ▼
+                      ┌─────────────────────────────────┐
+                      │ Main Menu & Active Alert Header │ ◄──┐
+                      └─────────────────────────────────┘    │
+                                      │                      │
+       ┌──────────────┬───────────────┼──────────────┬───────┴────────┐
+       ▼              ▼               ▼              ▼                ▼
+ [ 1. Subjects ] [ 2. Tasks ] [ 3. Timetable ] [ 4. Analytics ] [ 5. Reports & Backup ]
+       │              │               │              │                │
+       ▼              ▼               ▼              ▼                ▼
+   (CRUD & Code  (CRUD, Status   (Time Windows  (Stream API      (CSV Export &
+   Uniqueness)   & Overdue Flag)  & Conflicts)  Grouping & %)    DB Snapshot)
+        </div>
+    </div>
+
+    <!-- PAGE 6: SEQUENCE & CLASS DIAGRAMS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h3>7.3 Sequence Diagram</h3>
+        <p>Details synchronous and asynchronous message flow during task submission and overdue audit verification.</p>
+
+        <div class="terminal-box">
+ Student / CLI      Main (CLI)       Validator       TaskService      TaskRepo         SQLite DB       ReminderDaemon
+      │                  │               │                │               │                │                 │
+   1. ├─── Add Task ────►│               │                │               │                │                 │
+   2. │                  ├── Validate ──►│                │               │                │                 │
+   3. │                  │◄── Valid ─────┤                │               │                │                 │
+   4. │                  ├─────────── createTask() ──────►│               │                │                 │
+   5. │                  │                                ├──── save() ──►│                │                 │
+   6. │                  │                                │               ├── INSERT ─────►│                 │
+   7. │                  │                                │               │◄── Task ID ────┤                 │
+   8. │                  │                                │◄── Task ──────┤                │                 │
+   9. │                  │◄────────── Return Task ────────┤                                │                 │
+  10. │                  ├──────────────────────── refreshAlerts() ─────────────────────────────────────────►│
+  11. │                  │◄─────────────────────── Active Alert String ─────────────────────────────────────┤
+  12. │◄─ Confirmation ──┤                                                                                   │
+        </div>
+
+        <h3>7.4 Class / Component Diagram</h3>
+        <p>Illustrates domain entities, repository contracts, and service layer relationships.</p>
+
+        <div class="terminal-box">
+      ┌─────────────────────────┐                   ┌─────────────────────────┐
+      │         Subject         │ 1               * │          Task           │
+      ├─────────────────────────┤◄──────────────────┼─────────────────────────┤
+      │ - id: int               │                   │ - id: int               │
+      │ - name: String          │                   │ - subjectId: int        │
+      │ - code: String          │                   │ - title: String         │
+      │ - credits: int          │                   │ - priority: Priority    │
+      │ - description: String   │                   │ - deadline: LocalDate   │
+      └─────────────────────────┘                   │ - status: TaskStatus    │
+                   ▲                                │ - estimatedMinutes: int │
+                   │ 1                              ├─────────────────────────┤
+                   │                                │ + isOverdue(): boolean  │
+                   │ *                              │ + isDueToday(): boolean │
+      ┌─────────────────────────┐                   └─────────────────────────┘
+      │      StudySession       │
+      ├─────────────────────────┤
+      │ - id: int               │
+      │ - subjectId: int        │
+      │ - sessionDate: LocalDate│
+      │ - startTime: LocalTime  │
+      │ - endTime: LocalTime    │
+      │ - topic: String         │
+      │ - status: SessionStatus │
+      ├─────────────────────────┤
+      │ + getDuration(): long   │
+      │ + conflictsWith(): bool │
+      └─────────────────────────┘
+        </div>
+    </div>
+
+    <!-- PAGE 7: ER DIAGRAM & DESIGN DECISIONS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h3>7.5 Entity-Relationship (ER) Diagram</h3>
+        <p>Defines the relational database schema implemented in SQLite with ACID foreign key constraints.</p>
+
+        <div class="terminal-box">
+  ┌─────────────────────────────────┐
+  │            SUBJECTS             │
+  ├─────────────────────────────────┤
+  │ PK  id           INTEGER        │
+  │     name         TEXT           │
+  │ UK  code         TEXT           │
+  │     credits      INTEGER        │
+  │     description  TEXT           │
+  └─────────────────────────────────┘
+           │ 1                │ 1
+           │                  │
+           │ * (CASCADE)      │ * (CASCADE)
+           ▼                  ▼
+  ┌─────────────────────────────────┐      ┌─────────────────────────────────┐
+  │              TASKS              │      │         STUDY_SESSIONS          │
+  ├─────────────────────────────────┤      ├─────────────────────────────────┤
+  │ PK  id                 INTEGER  │      │ PK  id            INTEGER       │
+  │ FK  subject_id         INTEGER  │      │ FK  subject_id    INTEGER       │
+  │     title              TEXT     │      │     session_date  TEXT          │
+  │     description        TEXT     │      │     start_time    TEXT          │
+  │     priority           TEXT     │      │     end_time      TEXT          │
+  │     deadline           TEXT     │      │     topic         TEXT          │
+  │     status             TEXT     │      │     status        TEXT          │
+  │     estimated_minutes  INTEGER  │      └─────────────────────────────────┘
+  └─────────────────────────────────┘
+        </div>
+
+        <h2>8. Design Decisions & Rationale</h2>
+        <ol>
+            <li><strong>Embedded SQLite via JDBC vs. External Client-Server RDBMS (MySQL/PostgreSQL):</strong><br>
+            <em>Rationale:</em> External databases create administrative friction for academic evaluation (user permissions, ports, schema imports). SQLite provides zero-configuration local persistence in <code>data/studyplanner.db</code> with complete ACID transaction guarantees.</li>
+            <li><strong>Java Stream API vs. Iterative SQL Aggregations:</strong><br>
+            <em>Rationale:</em> Progress percentages and workload totals are computed in-memory via Java Streams (<code>groupingBy</code>, <code>filter</code>, <code>mapToInt</code>). This avoids redundant disk I/O and demonstrates modern functional programming idioms.</li>
+            <li><strong>In-Memory Temporal Interval Logic vs. Database Queries for Conflict Detection:</strong><br>
+            <em>Rationale:</em> Interval comparisons ($start_A &lt; end_B \land end_A &gt; start_B$) executed with Java <code>LocalTime</code> provide microsecond precision without SQL date dialect quirks.</li>
+            <li><strong>ScheduledExecutorService vs. Raw Thread.sleep() Background Threads:</strong><br>
+            <em>Rationale:</em> Thread pooling with daemon threads avoids JVM hangs, resource leaks, and guarantees graceful termination via runtime shutdown hooks.</li>
+            <li><strong>Java NIO.2 (Files & Path) vs. Legacy java.io.File:</strong><br>
+            <em>Rationale:</em> Java NIO.2 provides atomic file copies (<code>StandardCopyOption.REPLACE_EXISTING</code>), explicit UTF-8 charset handling, and enhanced performance across operating systems.</li>
+        </ol>
+    </div>
+
+    <!-- PAGE 8: IMPLEMENTATION DETAILS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>9. Implementation Details</h2>
+
+        <h3>9.1 Dynamic Overdue Auditing & Temporal Status Evaluation</h3>
+        <p>The system evaluates whether an academic task is overdue dynamically by validating both its completion state and chronological deadline against the system clock:</p>
+        <div class="code-block">public boolean isOverdue() {
+    return status == TaskStatus.PENDING && deadline != null && deadline.isBefore(LocalDate.now());
+}
+
+public boolean isDueToday() {
+    return status == TaskStatus.PENDING && deadline != null && deadline.isEqual(LocalDate.now());
+}</div>
+
+        <h3>9.2 Functional Progress Analytics via Java Stream API</h3>
+        <p>Subject-specific completion rates are computed cleanly by grouping tasks by subject ID and performing downstream counting:</p>
+        <div class="code-block">public Map&lt;String, Double&gt; getSubjectWiseProgress() {
+    List&lt;Task&gt; tasks = taskService.getAllTasks();
+    if (tasks.isEmpty()) return Collections.emptyMap();
+
+    Map&lt;Integer, String&gt; subjectCodeMap = subjectService.getSubjectCodeMap();
+
+    // Group tasks by subject ID using Stream API
+    Map&lt;Integer, List&lt;Task&gt;&gt; tasksBySubject = tasks.stream()
+            .collect(Collectors.groupingBy(Task::getSubjectId));
+
+    return tasksBySubject.entrySet().stream()
+            .collect(Collectors.toMap(
+                    entry -&gt; subjectCodeMap.getOrDefault(entry.getKey(), "SUB-" + entry.getKey()),
+                    entry -&gt; {
+                        List&lt;Task&gt; subTasks = entry.getValue();
+                        long completed = subTasks.stream()
+                                .filter(t -&gt; t.getStatus() == TaskStatus.COMPLETED)
+                                .count();
+                        return ((double) completed / subTasks.size()) * 100.0;
+                    }
+            ));
+}</div>
+
+        <h3>9.3 Timetable Temporal Conflict Detection Algorithm</h3>
+        <p>Validates whether two study sessions on the same date overlap in time:</p>
+        <div class="code-block">public boolean conflictsWith(StudySession other) {
+    if (other == null || this.id == other.id) return false;
+    if (this.status == SessionStatus.CANCELLED || other.status == SessionStatus.CANCELLED) return false;
+    if (!Objects.equals(this.sessionDate, other.sessionDate)) return false;
+
+    // Overlap condition: this.start &lt; other.end AND this.end &gt; other.start
+    return this.startTime.isBefore(other.endTime) && this.endTime.isAfter(other.startTime);
+}</div>
+    </div>
+
+    <!-- PAGE 9-10: SCREENSHOTS / RESULTS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>10. Screenshots & Execution Results</h2>
+        <p>The following terminal captures display verified execution outputs of StudyPlanner CLI running on the local host:</p>
+
+        <h4>Figure 10.1: Interactive CLI Dashboard with Real-Time Alert Banner</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> StudyPlanner CLI — Terminal Dashboard</div>
+========================================================
+                 STUDY PLANNER CLI                      
+========================================================
+ >> [ALERT: 1 overdue task(s)!]
+--------------------------------------------------------
+ 1. Subject Management
+ 2. Task Management
+ 3. Study Schedule
+ 4. Progress & Analytics
+ 5. Reports & Backup
+ 6. Demo Data Seeder (Quick Sample Setup)
+ 7. Exit
+========================================================
+Enter choice: 
+        </div>
+
+        <h4>Figure 10.2: Enrolled Subject Catalog with Credit Allocations</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> Enrolled Subjects View</div>
+--- All Enrolled Subjects ---
+ID    | Code       | Name                           | Credits  | Description
+----------------------------------------------------------------------------------
+1     | CS101      | Java Programming               | 4        | Core Java, OOP, Streams, JDBC
+2     | CS201      | Database Management Systems    | 4        | Relational modeling, SQL, Normalization
+3     | CS301      | Operating Systems              | 3        | Processes, Threads, CPU Scheduling, Memory
+        </div>
+
+        <h4>Figure 10.3: Academic Task Management with Real-Time Overdue Flagging</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> Task Management View</div>
+--- All Academic Tasks ---
+ID   | Subject  | Title                     | Priority | Deadline     | Status     | Est(min) | Overdue?
+---------------------------------------------------------------------------------------------------
+1    | CS101    | Complete Java OOP Lab     | HIGH     | 2026-09-15   | PENDING    | 120      | [OVERDUE]
+2    | CS101    | Practice JDBC &amp; Prepar... | MEDIUM   | 2026-09-16   | COMPLETED  | 90       | No
+3    | CS201    | Normalize DBMS Schema ... | HIGH     | 2026-09-19   | PENDING    | 150      | No
+4    | CS301    | Revise Round-Robin Sch... | LOW      | 2026-09-21   | PENDING    | 60       | No
+        </div>
+    </div>
+
+    <!-- PAGE 11: MORE RESULTS & ANALYTICS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h4>Figure 10.4: Timetable & Conflict-Checked Study Sessions</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> Timetable Schedule</div>
+--- Timetable &amp; Scheduled Study Sessions ---
+ID   | Subject  | Date         | Time          | Duration | Status       | Topic
+-------------------------------------------------------------------------------------------
+1    | CS101    | 2026-09-16   | 14:00 - 15:30 | 90 min   | SCHEDULED    | Concurrency and ExecutorService
+2    | CS201    | 2026-09-17   | 10:00 - 11:30 | 90 min   | SCHEDULED    | ER Modeling &amp; Normalization
+        </div>
+
+        <h4>Figure 10.5: Progress & Study Analytics Dashboard (Java Streams)</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> Functional Analytics</div>
+========================================================
+               PROGRESS &amp; STUDY ANALYTICS               
+========================================================
+Overall Progress   : [#####---------------] 25.0%
+--------------------------------------------------------
+Subject-Wise Progress:
+  * CS301      [---------------] 0.0%
+  * CS101      [########-------] 50.0%
+  * CS201      [---------------] 0.0%
+
+Task Breakdown:
+  * Total Tasks        : 4
+  * Completed Tasks    : 1
+  * Pending Tasks      : 3
+  * Overdue Tasks      : 1
+  * High Priority Due  : 2
+
+Study Hours:
+  * Estimated Task Workload  : 7.0 hours
+  * Scheduled Study Sessions : 3.0 hours
+========================================================
+        </div>
+
+        <h4>Figure 10.6: Academic Progress Report & NIO.2 Data Exports</h4>
+        <div class="terminal-box">
+<div class="terminal-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span> Report &amp; NIO.2 Exports</div>
+====================================================
+             ACADEMIC PROGRESS REPORT
+   Generated: 2026-09-16 01:16
+====================================================
+Overall Completion : 25.0%
+--- Subject-Wise Breakdown ---
+  * CS301           : 0.0%
+  * CS101           : 50.0%
+  * CS201           : 0.0%
+--- Task Statistics ---
+  * Total Tasks        : 4
+  * Completed Tasks    : 1
+  * Pending Tasks      : 3
+  * Overdue Tasks      : 1
+  * High Priority Due  : 2
+  * Est. Task Hours    : 7.00 hrs
+  * Planned Study Time : 3.00 hrs
+====================================================
+[✓] Tasks exported successfully to: data/exports/tasks_export_20260916_011605.csv
+[✓] Schedule exported successfully to: data/exports/schedule_export_20260916_011605.csv
+[✓] Backup created successfully: data/backups/studyplanner_backup_20260916_011605.db
+        </div>
+    </div>
+
+    <!-- PAGE 12: TESTING APPROACH -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>11. Testing Approach</h2>
+        <p>To verify system correctness, robustness, and mathematical accuracy, an automated test runner using JUnit 5 is integrated directly into the project. The test suite programmatically exercises 21 rigorous test cases covering all edge conditions:</p>
+
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 12%;">Test Case</th>
+                    <th style="width: 40%;">Test Description &amp; Verification Target</th>
+                    <th>Expected Outcome</th>
+                    <th style="width: 15%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>TC-01</strong></td>
+                    <td><code>requireNonEmpty</code> Valid Input</td>
+                    <td>Returns trimmed valid string</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-02</strong></td>
+                    <td><code>requireNonEmpty</code> Blank Input</td>
+                    <td>Throws <code>InvalidInputException</code></td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-03</strong></td>
+                    <td><code>parsePositiveInt</code> Valid Whole Number</td>
+                    <td>Parses integer &gt; 0 correctly</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-04</strong></td>
+                    <td><code>parsePositiveInt</code> Negative/Zero/Alpha</td>
+                    <td>Throws <code>InvalidInputException</code></td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-05</strong></td>
+                    <td><code>parseDate</code> Valid ISO-8601 Format</td>
+                    <td>Parses <code>LocalDate</code> correctly</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-06</strong></td>
+                    <td><code>parseDate</code> Malformed Input</td>
+                    <td>Throws <code>InvalidInputException</code></td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-07</strong></td>
+                    <td><code>parseTime</code> 24-hr Valid Format</td>
+                    <td>Parses <code>LocalTime</code> correctly</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-08</strong></td>
+                    <td><code>validateTimeRange</code> Temporal Inversion</td>
+                    <td>Throws exception if end time &le; start time</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-09</strong></td>
+                    <td><code>parsePriority</code> Case-Insensitive Check</td>
+                    <td>Matches LOW, MEDIUM, HIGH accurately</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-10</strong></td>
+                    <td>Subject CRUD Operations</td>
+                    <td>Insert, retrieve, update, delete cycle</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-11</strong></td>
+                    <td>Task Foreign Key Relational Integrity</td>
+                    <td>Persists task tied to course subject ID</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-12</strong></td>
+                    <td>Study Session Duration Minutes</td>
+                    <td>Accurately calculates session minutes</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-13</strong></td>
+                    <td>Task Creation Workflow</td>
+                    <td>Initializes task in PENDING state</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-14</strong></td>
+                    <td>Non-Existent Subject Rejection</td>
+                    <td>Throws <code>SubjectNotFoundException</code></td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-15</strong></td>
+                    <td>Task Status Completion Toggle</td>
+                    <td>Transitions PENDING to COMPLETED</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-16</strong></td>
+                    <td>Overdue Detection Precision</td>
+                    <td>Flags pending past tasks; ignores completed</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-17</strong></td>
+                    <td>High-Priority Pending Filter</td>
+                    <td>Returns only pending tasks with HIGH priority</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-18</strong></td>
+                    <td>Overall Completion Percentage</td>
+                    <td>Calculates 75.0% for 3 of 4 completed tasks</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-19</strong></td>
+                    <td>Subject-Wise Progress Breakdown</td>
+                    <td>Calculates 50% for CS202 and 100% for CS203</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-20</strong></td>
+                    <td>Task Aggregation Counts</td>
+                    <td>Matches database record counts</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TC-21</strong></td>
+                    <td>Cumulative Study Workload Calculation</td>
+                    <td>Accurately sums task and schedule hours</td>
+                    <td><span class="status-badge">PASSED</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Automated Test Suite Summary:</strong> <strong>All 21 test cases passed successfully (100% pass rate, 0 regressions).</strong></p>
+    </div>
+
+    <!-- PAGE 13: CHALLENGES & SOLUTIONS -->
+    <div class="page">
+        <div class="header-footer">
+            <span>StudyPlanner — CLI Academic Platform | Course: Programming in Java</span>
+            <span>Project Report (25BAI10954)</span>
+        </div>
+
+        <h2>12. Challenges Faced & Practical Solutions</h2>
+        <p>Building an academic task and timetable management platform in native Java presented several real-world software engineering hurdles. The following challenges were encountered during development and successfully resolved:</p>
+
+        <h3>Challenge 1: Non-Printable BOM Characters in Standard Input Pipes</h3>
+        <p>When running automated test scripts or piping terminal keystrokes on Windows command prompts, standard input streams occasionally transmitted a Byte Order Mark (BOM, <code>\uFEFF</code>) or control characters on the first keystroke. As a result, exact menu string matches (e.g., <code>choice.equals("6")</code>) failed silently and fell back to default handlers.</p>
+        <p><strong>Solution:</strong> Developed a centralized, defensive <code>readChoice()</code> input sanitizer in <code>Main.java</code> that strips non-printable regex patterns: <code>choice.replaceAll("[\\p{Cntrl}\\uFEFF]", "").trim()</code>, ensuring 100% reliable menu dispatch across interactive and piped terminal streams.</p>
+
+        <h3>Challenge 2: Inadvertent Overdue Flagging of Completed Historic Tasks</h3>
+        <p>A naive overdue checking condition evaluated solely whether <code>task.getDeadline().isBefore(LocalDate.now())</code>. Consequently, assignments submitted on time weeks earlier were incorrectly flagged as overdue deliverables, distorting student progress analytics.</p>
+        <p><strong>Solution:</strong> Enforced dual-predicate domain validation in <code>Task.java</code>: an overdue condition strictly requires that the task's state remains <code>TaskStatus.PENDING</code> in addition to deadline expiration: <code>status == TaskStatus.PENDING &amp;&amp; deadline.isBefore(LocalDate.now())</code>.</p>
+
+        <h3>Challenge 3: Non-Blocking Real-Time Background Notification Rendering</h3>
+        <p>Surfacing active overdue notifications without blocking user keyboard input or forcing busy-wait loops in the CLI menu loop required careful thread coordination.</p>
+        <p><strong>Solution:</strong> Implemented <code>ScheduledExecutorService</code> with a custom daemon thread factory that periodically audits task states in the background and writes alerts to an <code>AtomicReference&lt;String&gt;</code>. The foreground CLI thread reads this reference in $O(1)$ time upon menu redraws with zero I/O blocking.</p>
+
+        <h3>Challenge 4: Idempotent Demo Data Seeding Across Repeated Executions</h3>
+        <p>Triggering the sample academic data seeder on a database that had already been partially configured generated SQLite unique constraint violations (<code>UNIQUE constraint failed: subjects.code</code>).</p>
+        <p><strong>Solution:</strong> Re-engineered <code>seedDemoData()</code> to perform an idempotent probe: it first queries for existing subjects by code (e.g. <code>CS101</code>), reusing their primary keys if found, and selectively populates missing tasks and sessions, completely eliminating duplicate key crashes.</p>
+
+        <h3>Challenge 5: Zero-Configuration Native Java Portability</h3>
+        <p>Requiring academic evaluators to install Maven or configure build paths creates setup obstacles that can hinder evaluation.</p>
+        <p><strong>Solution:</strong> Integrated the <code>maven-shade-plugin</code> into <code>pom.xml</code> to compile a standalone fat JAR (<code>study-planner-cli.jar</code>) bundling the SQLite native drivers. Accompanied by platform launchers (<code>run.bat</code> and <code>run.sh</code>), the application executes instantly on any computer equipped with standard Java 21+.</p>
+
+        <div class="divider"></div>
+        <p style="text-align: center; color: #64748b; font-size: 8.5pt;">
+            StudyPlanner CLI — Course Project Report | Vellore Institute of Technology (VIT) Bhopal University<br>
+            Student: <strong>Akshit</strong> (Registration No: <strong>25BAI10954</strong>) | Academic Year 2025–2026
+        </p>
+    </div>
+
+</body>
+</html>

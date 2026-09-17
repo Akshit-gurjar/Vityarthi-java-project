@@ -1,0 +1,40 @@
+# Maven build output
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Compiled class files
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE & Editor files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.antigravity/
+.antigravity-ide/
+.settings/
+.classpath
+.project
+.metadata/
+bin/
+
+# Runtime Database & Generated Exports / Backups
+data/
+*.dat
+*.db
+*.db-journal
+*.log
+
+# OS Generated
+Thumbs.db
+Desktop.ini
+.DS_Store
