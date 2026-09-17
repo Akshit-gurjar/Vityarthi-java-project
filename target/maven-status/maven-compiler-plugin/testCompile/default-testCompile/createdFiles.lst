@@ -1,0 +1,4 @@
+com\studyplanner\InputValidatorTest.class
+com\studyplanner\TaskServiceTest.class
+com\studyplanner\DatabaseCrudTest.class
+com\studyplanner\AnalyticsServiceTest.class
